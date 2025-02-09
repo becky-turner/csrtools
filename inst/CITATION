@@ -1,6 +1,6 @@
 citEntry(
   entry = "Software",
-  title = "csrtools",
+  title = "csrtools: Clinical Studies Review Tools",
   author = c(person("Rebecca", "Turner", role = c("aut", "cre")),
   person("Olivia", "Hartrick", role = c("aut"))),
   year = "2025",
