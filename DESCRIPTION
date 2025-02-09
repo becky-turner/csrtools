@@ -2,10 +2,15 @@ Package: csrtools
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Authors@R: c(
+  person("Becky", "Turner", email = "bectur@ceh.ac.uk", role = c("aut", "cre")),
+  person("Olivia", "Hartrick", email = "liv.hartrick@ouh.nhs.uk", role = "aut")
+  )
+Description: crstools provides a workflow for performing meta-analysis and cumulative effect size estimation in R. 
+  The package includes functions for calculating and plotting standardised mean change, handling heterogeneity,
+  and cumulative meta-analysis with propagated uncertainty estimates. The workflow is particularly suited
+  to medical and psychological research applications, allowing researchers to analyse time-series data or
+  multiple interventions.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
