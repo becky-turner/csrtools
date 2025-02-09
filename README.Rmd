@@ -290,7 +290,7 @@ help(package = "csrtools")
 
 ## Citation
 
-
+Turner R, Hartrick O (2025). csrtools: Clinical Studies Review Tools.https://doi.org/10.5281/zenodo.14841467.
 
 
 ## Contributing

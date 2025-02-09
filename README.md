@@ -38,23 +38,7 @@ install.packages("devtools")
 
 # Install CSRtools from GitHub
 devtools::install_github("becky-turner/csrtools")
-```
 
-    ## 
-    ## ── R CMD build ─────────────────────────────────────────────────────────────────
-    ##      checking for file ‘/tmp/RtmpxOhNlW/remotesab1153fd808d/becky-turner-csrtools-be78c7b/DESCRIPTION’ ...  ✔  checking for file ‘/tmp/RtmpxOhNlW/remotesab1153fd808d/becky-turner-csrtools-be78c7b/DESCRIPTION’
-    ##   ─  preparing ‘csrtools’:
-    ##      checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
-    ##   ─  excluding invalid files
-    ##      Subdirectory 'R' contains invalid file names:
-    ##      ‘_globals.R’
-    ##   ─  checking for LF line-endings in source and make files and shell scripts
-    ##   ─  checking for empty or unneeded directories
-    ##   ─  building ‘csrtools_0.1.0.tar.gz’
-    ##      
-    ## 
-
-``` r
 # Once installed, load the package
 library("csrtools")
 ```
@@ -241,6 +225,9 @@ help(package = "csrtools")
 ```
 
 ## Citation
+
+Turner R, Hartrick O (2025). csrtools: Clinical Studies Review
+Tools.https://doi.org/10.5281/zenodo.14841467.
 
 ## Contributing
 
