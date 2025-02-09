@@ -26,11 +26,8 @@
 #'   time_unit = "weeks"
 #' )
 #'
-#' # Generate the plot
+#' # Generate plot
 #' plot <- plot_pooled_smc_tp(pooled_data)
-#'
-#' # Save the plot to a file
-#' plot_pooled_smc_tp(pooled_data, save_path = "pooled_smc_plot.png")
 #'
 #' @export
 plot_pooled_smc_tp <- function(pooled_data, x = "time_point", y = "smc", save_path = NULL) {

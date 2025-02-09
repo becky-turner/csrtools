@@ -39,10 +39,7 @@ pooled_data <- data.frame(
   time_unit = "weeks"
 )
 
-# Generate the plot
+# Generate plot
 plot <- plot_pooled_smc_tp(pooled_data)
-
-# Save the plot to a file
-plot_pooled_smc_tp(pooled_data, save_path = "pooled_smc_plot.png")
 
 }
