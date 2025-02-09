@@ -1,7 +1,7 @@
 ---
-title: "README"
 output: github_document
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -11,15 +11,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Overview
 
-csrtools is an R package designed to provide a workflow for meta-analysis and cumulative effect size estimation. It provides functions to compute standardised mean change (SMC), handle heterogeneity statistics, and generate high-quality visualisations.
+`csrtools` is an R package designed to provide a workflow for meta-analysis and cumulative effect size estimation. It provides functions to compute standardised mean change (SMC), handle heterogeneity statistics, and generate high-quality visualisations.
 
-This package is particularly suited for researchers in medicine, and psychology, or any field that involves meta-analytical studies and time-series data.
+This package is particularly suited for researchers in medicine, psychology, or any field that involves meta-analytical studies and time-series data.
 
 ## Features
 
 - **Run meta analysis**: Functions to calculate standardised mean change and heterogeneity statistics for time-series data.
+
 - **Cumulative effects**: Compute cumulative effect sizes and their confidence intervals with propagated uncertainty estimates over specific time points.
+
 - **Handle missing data**: Option to impute missing data with weighted means before time-series analysis.
+
 - **Data visualisation**: Generate forest and funnel plots, pooled SMC time-series, and cumulative SMC time-series, with options to save multi-panel layouts.
 
 
@@ -27,7 +30,7 @@ This package is particularly suited for researchers in medicine, and psychology,
 
 You can include R code in the document as follows:
 
-```{r installation}
+```{r installation, message=FALSE, warning=FALSE}
 # Install devtools if not already installed
 install.packages("devtools")
 
@@ -39,18 +42,28 @@ library("csrtools")
 
 ```
 
-## Load example data
+## Load example data and other packages
 
 Note that the example dataset `bctq_data` loaded below has been pre-processed for compatibility with the package.
 
-```{r}
-bctq_data <- data(bctq_data)
+```{r, message=FALSE, warning=FALSE}
+# Load BCTQ example data
+data(bctq_data)
+
+# Load additional packages
+library(metafor)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
 
 ```
 
+
 ## Example: Run standardised mean change meta-analysis
 
-```{r smc1, warning=FALSE, fig.height=9, fig.width=12}
+Run SMC meta analysis from baseline to 2 weeks for the open CTR group:
+
+```{r smc1, warning=FALSE, fig.height=7, fig.width=11}
 # Intervention = Open CTR
 open_2weeks <- smc_tp(data=bctq_data[bctq_data$intervention_arm=="Open",], 
        outcome_mean = "mean_2weeks", 
@@ -58,6 +71,12 @@ open_2weeks <- smc_tp(data=bctq_data[bctq_data$intervention_arm=="Open",],
        time_point = "2", time_unit = "weeks (from baseline)", 
        plot=TRUE)
 
+```
+
+Now run the SMC meta analysis for the endoscopic CTR group:
+
+
+```{r smc2, message=FALSE,warning=FALSE, fig.height=7, fig.width=11}
 endoscopic_2weeks <- smc_tp(data=bctq_data[bctq_data$intervention_arm=="Endoscopic",], 
        outcome_mean = "mean_2weeks", 
        outcome_sd = "sd_2weeks",
@@ -66,9 +85,12 @@ endoscopic_2weeks <- smc_tp(data=bctq_data[bctq_data$intervention_arm=="Endoscop
 
 ```
 
+
 ## Example: Plot pooled SMC across interventions
 
-```{r pooled smc}
+Here, calculate the pooled SMC across all interventions and visualise the results as a time-series.
+
+```{r pooled smc,warning=FALSE, message=FALSE}
 # Define column names and time points
 outcome_means <- c("mean_1week", "mean_2weeks", "mean_3weeks", "mean_4weeks","mean_6weeks",
                    "mean_12weeks", "mean_24weeks", "mean_52weeks")
@@ -93,13 +115,15 @@ intervention <- "All"
                                       sample_size = "n_in_arm",
                                       time_points = time_points,
                                       time_unit = time_unit,
-                                      intervention = intervention)
+                                      intervention = intervention, plot = TRUE)
 )
 
 ```
 
 
 ## Example: Calculate correlation coefficients
+
+Calculate the correlation coefficients between BCTQ scores at baseline, 4 weeks and 12 weeks across all interventions.
 
 ```{r}
 outcome_means <- c("mean_baseline", "mean_4weeks","mean_12weeks")
@@ -110,14 +134,13 @@ correlation_table(data = means_all, save_to_doc = FALSE)
 ```
 
 
-
 ## Example: Estimate cumulative effects
 
-Note the `open_smc_data` includes only data for the Open CTR subset of patients. The dataset was curated using the `smc_tp` function above to calculate the SMC between each time-point.
+Calculate the cumulative SMC estimates with confidence intervals for the open CTR group. Below, the `open_smc_data` subset includes only data for the Open CTR subset of patients. The dataset was curated using the `smc_tp` function above to calculate the SMC between each time-point.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 ## Impute means for missing values in open subset
-dat1 <- open_subset
+dat1 <- bctq_data[bctq_data$intervention_arm=="Open",]
 
 # Define the columns to work on (columns 11 to 31)
 impute_cols <- colnames(dat1)[11:31]
@@ -198,6 +221,8 @@ head(open_smc_data)
 
 ## Visualise cumulative effects
 
+Here, we use a smoothing function over the cumulative SMC estimates calculated from the step above and plot the point estimates with confidence intervals as a time-series.
+
 ```{r run csmc, warning=FALSE, message=FALSE}
 smc_smooth <- smooth_csmc(open_smc_data, csmc = "smc_cum",
                           lower_ci = "lower_ci_fixed", upper_ci = "upper_ci_fixed",
@@ -214,10 +239,10 @@ smc_ribbon <- smc_smooth %>%
   pivot_wider(names_from = parameter,
               values_from = smoothed_value,
               id_cols = c(time_point, intervention)) %>%
-  rename(ymin = lower, ymax = upper)
+  dplyr::rename(ymin = lower, ymax = upper)
 
 # Create a subset of the data for the lines
-smc_lines <- smc_smooth %>% filter(parameter == "smc")
+smc_lines <- smc_smooth %>% dplyr::filter(parameter == "smc")
 
 # Plotting parameters
 cols <- c("Open" = "lightblue")
