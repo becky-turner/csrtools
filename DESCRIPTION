@@ -26,3 +26,5 @@ Imports:
     tibble,
     tidyr
 RoxygenNote: 7.3.1
+Depends: 
+    R (>= 3.5)

@@ -1,0 +1,50 @@
+#' Example Boston Carpal Tunnel Questionnaire data
+#'
+#' This example dataset is based on that curated in Hartrick et al. (in review).
+#' "Time to recovery following open and endoscopic carpal tunnel release: a systematic review
+#' and meta-analysis"
+#' The dataset contains measurements and study details for the Boston Carpal Tunnel
+#' Questionnaire (BCTQ) across various interventions, time points, and studies.
+#'
+#' @format A tibble with 77 rows and 33 variables:
+#' \describe{
+#'   \item{\code{study_id}}{Numeric identifier for each study.}
+#'   \item{\code{study_author}}{Character, author(s) of the study.}
+#'   \item{\code{interventions}}{Character, intervention type used in the study.}
+#'   \item{\code{intervention_arm}}{Character, specifies the type of intervention arm.}
+#'   \item{\code{n_in_arm}}{Numeric, sample size for the study arm.}
+#'   \item{\code{study_arm}}{Character, specific study arm.}
+#'   \item{\code{mean_baseline}}{Numeric, mean baseline measurement of the BCTQ.}
+#'   \item{\code{sd_baseline}}{Numeric, standard deviation of the baseline measurement.}
+#'   \item{\code{mean_1week}}{Numeric, mean measurement at 1 week post-intervention (if available).}
+#'   \item{\code{sd_1week}}{Numeric, standard deviation at 1 week post-intervention (if available).}
+#'   \item{\code{mean_2weeks}}{Numeric, mean measurement at 2 weeks post-intervention.}
+#'   \item{\code{sd_2weeks}}{Numeric, standard deviation at 2 weeks post-intervention.}
+#'   \item{\code{mean_3weeks}}{Numeric, mean measurement at 3 weeks post-intervention.}
+#'   \item{\code{sd_3weeks}}{Numeric, standard deviation at 3 weeks post-intervention.}
+#'   \item{\code{mean_4weeks}}{Numeric, mean measurement at 4 weeks post-intervention.}
+#'   \item{\code{sd_4weeks}}{Numeric, standard deviation at 4 weeks post-intervention.}
+#'   \item{\code{mean_6weeks}}{Numeric, mean measurement at 6 weeks post-intervention.}
+#'   \item{\code{sd_6weeks}}{Numeric, standard deviation at 6 weeks post-intervention.}
+#'   \item{\code{mean_2months}}{Numeric, mean measurement at 2 months post-intervention.}
+#'   \item{\code{sd_2months}}{Numeric, standard deviation at 2 months post-intervention.}
+#'   \item{\code{mean_12weeks}}{Numeric, mean measurement at 12 weeks post-intervention.}
+#'   \item{\code{sd_12weeks}}{Numeric, standard deviation at 12 weeks post-intervention.}
+#'   \item{\code{mean_24weeks}}{Numeric, mean measurement at 24 weeks post-intervention.}
+#'   \item{\code{sd_24weeks}}{Numeric, standard deviation at 24 weeks post-intervention.}
+#'   \item{\code{mean_52weeks}}{Numeric, mean measurement at 52 weeks post-intervention.}
+#'   \item{\code{sd_52weeks}}{Numeric, standard deviation at 52 weeks post-intervention.}
+#'   \item{\code{mean_72weeks}}{Numeric, mean measurement at 72 weeks post-intervention.}
+#'   \item{\code{sd_72weeks}}{Numeric, standard deviation at 72 weeks post-intervention.}
+#'   \item{\code{mean_104weeks}}{Numeric, mean measurement at 104 weeks post-intervention.}
+#'   \item{\code{sd_104weeks}}{Numeric, standard deviation at 104 weeks post-intervention.}
+#'   \item{\code{author_arm}}{Character identifier, combined study author and study arm information.}
+#' }
+#'
+#' @source https://github.com/liv-hartrick/Time-to-recovery-following-open-and-endoscopic-carpal-tunnel-decompression-a-systematic-review
+#'
+#' @examples
+#' data(bctq_data)
+#' summary(bctq_data)
+"bctq_data"
+
