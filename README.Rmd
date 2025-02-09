@@ -206,7 +206,7 @@ open_smc_data <- open_smc_data[order(open_smc_data$time_point), ]
 open_smc_data$smc_cum <- cumsum(open_smc_data$smc)
 
 # Calculate cumulative confidence intervals (fixed-width option)
-open_smc_data <- cumulative_ci(open_smc_data, method = "fixed")
+open_smc_data <- cumulative_ci(open_smc_data, method = "wald")
 
 # Add 0 time point
 open_smc_data <- rbind(0, open_smc_data)
@@ -225,7 +225,7 @@ Here, we use a smoothing function over the cumulative SMC estimates calculated f
 
 ```{r run csmc, warning=FALSE, message=FALSE}
 smc_smooth <- smooth_csmc(open_smc_data, csmc = "smc_cum",
-                          lower_ci = "lower_ci_fixed", upper_ci = "upper_ci_fixed",
+                          lower_ci = "lower_ci_wald", upper_ci = "upper_ci_wald",
                           intervention = "intervention",
                           span = 0.3, time_series = seq(0, 52, 0.001))
 

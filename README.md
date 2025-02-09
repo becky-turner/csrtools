@@ -38,7 +38,23 @@ install.packages("devtools")
 
 # Install CSRtools from GitHub
 devtools::install_github("becky-turner/csrtools")
+```
 
+    ## 
+    ## ── R CMD build ─────────────────────────────────────────────────────────────────
+    ##      checking for file ‘/tmp/RtmpxOhNlW/remotesab1153fd808d/becky-turner-csrtools-be78c7b/DESCRIPTION’ ...  ✔  checking for file ‘/tmp/RtmpxOhNlW/remotesab1153fd808d/becky-turner-csrtools-be78c7b/DESCRIPTION’
+    ##   ─  preparing ‘csrtools’:
+    ##      checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
+    ##   ─  excluding invalid files
+    ##      Subdirectory 'R' contains invalid file names:
+    ##      ‘_globals.R’
+    ##   ─  checking for LF line-endings in source and make files and shell scripts
+    ##   ─  checking for empty or unneeded directories
+    ##   ─  building ‘csrtools_0.1.0.tar.gz’
+    ##      
+    ## 
+
+``` r
 # Once installed, load the package
 library("csrtools")
 ```
@@ -173,7 +189,7 @@ open_smc_data <- open_smc_data[order(open_smc_data$time_point), ]
 open_smc_data$smc_cum <- cumsum(open_smc_data$smc)
 
 # Calculate cumulative confidence intervals (fixed-width option)
-open_smc_data <- cumulative_ci(open_smc_data, method = "fixed")
+open_smc_data <- cumulative_ci(open_smc_data, method = "wald")
 
 # Add 0 time point
 open_smc_data <- rbind(0, open_smc_data)
@@ -192,13 +208,13 @@ head(open_smc_data)
     ## 4          3          238 -4.5813823 -4.95968705 -4.20307745 -5.944285
     ## 5          4         1978  0.3707095  0.09280147  0.64861761 -5.573575
     ## 6          6          439 -0.2324367 -0.51016365  0.04529025 -5.806012
-    ##   lower_ci_fixed upper_ci_fixed intervention
-    ## 1       0.000000       0.000000         Open
-    ## 2       1.424809       2.016284         Open
-    ## 3      -1.650876      -1.074929         Open
-    ## 4      -6.322590      -5.565980         Open
-    ## 5      -5.851483      -5.295667         Open
-    ## 6      -6.083739      -5.528285         Open
+    ##      var_cum lower_ci_wald upper_ci_wald intervention
+    ## 1 0.00000000      0.000000     0.0000000         Open
+    ## 2 0.02276669      1.424809     2.0162839         Open
+    ## 3 0.04435370     -1.775685    -0.9501204         Open
+    ## 4 0.08160758     -6.504199    -5.3843709         Open
+    ## 5 0.10171194     -6.198665    -4.9484861         Open
+    ## 6 0.12179010     -6.490021    -5.1220027         Open
 
 ## Visualise cumulative effects
 
@@ -208,7 +224,7 @@ confidence intervals as a time-series.
 
 ``` r
 smc_smooth <- smooth_csmc(open_smc_data, csmc = "smc_cum",
-                          lower_ci = "lower_ci_fixed", upper_ci = "upper_ci_fixed",
+                          lower_ci = "lower_ci_wald", upper_ci = "upper_ci_wald",
                           intervention = "intervention",
                           span = 0.3, time_series = seq(0, 52, 0.001))
 ```
