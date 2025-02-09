@@ -6,8 +6,23 @@ Author: Who wrote it
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/becky-turner/csrtools
 BugReports: https://github.com/becky-turner/csrtools/issues
+Imports: 
+    boot,
+    dplyr,
+    flextable,
+    ggplot2,
+    Hmisc,
+    magrittr,
+    metafor,
+    officer,
+    pander,
+    psych,
+    rlang,
+    tibble,
+    tidyr
+RoxygenNote: 7.3.1
