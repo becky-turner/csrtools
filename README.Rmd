@@ -138,7 +138,7 @@ correlation_table(data = means_all, save_to_doc = FALSE)
 
 ## Example: Estimate cumulative effects
 
-Calculate the cumulative SMC estimates with confidence intervals for the open CTR group. Below, the `open_smc_data` subset includes only data for the Open CTR subset of patients. The dataset was curated using the `smc_tp` function above to calculate the SMC between each time-point.
+Calculate the cumulative SMC estimates with cumulative confidence intervals for the open CTR group. Below, the `open_smc_data` subset includes only data for the Open CTR subset of patients. The dataset was curated using the `smc_tp` function above to calculate the SMC between each time-point. Below, we calculate the cumulative confidence intervals for the point estimates using a propagated-variance estimation.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 ## Impute means for missing values in open subset
@@ -149,7 +149,7 @@ impute_cols <- colnames(dat1)[11:31]
 
 dat1 <- impute_missing(data = dat1, impute_cols, sample_size = "n_in_arm")
 
-# Re-assign to open vs endoscopic subsets
+# Re-assign to open
 open_subset <- dat1
 
 ## Open subset ----
@@ -201,31 +201,30 @@ open_smc_data$time_point <- as.numeric(open_smc_data$time_point)
 
 
 ```{r}
-# Sort the data by time_point to ensure proper calculation
-open_smc_data <- open_smc_data[order(open_smc_data$time_point), ]
+# Calculate cumulative SMC
+open_smc_data <- cumulative_smc(open_smc_data, 
+                                smc_var = "smc", time_var = "time_point", 
+                                intervention = "Open")
 
-# Calculate cumulative SMC changes
-open_smc_data$smc_cum <- cumsum(open_smc_data$smc)
-
-# Calculate cumulative confidence intervals (fixed-width option)
+# Calculate cumulative confidence intervals (propagated-variance option)
 open_smc_data <- cumulative_ci(open_smc_data, method = "wald")
 
-# Add 0 time point
-open_smc_data <- rbind(0, open_smc_data)
-
-# Add intervention names
-open_smc_data$intervention <- "Open"
-
-# View the final dataset
-head(open_smc_data)
+# View the output
+print(head(open_smc_data))
 
 ```
 
 ## Visualise cumulative effects
 
-Here, we use a smoothing function over the cumulative SMC estimates calculated from the step above and plot the point estimates with confidence intervals as a time-series.
+Here, we use a smoothing function over the cumulative SMC estimates calculated from the step above and plot the point estimates with propagated-variance confidence intervals as a time-series.
 
 ```{r run csmc, warning=FALSE, message=FALSE}
+# Run from 0: add 0 time point
+open_smc_data <- rbind(0, open_smc_data)
+
+# Rename intervention names after adding 0 line.
+open_smc_data$intervention <- "Open"
+
 smc_smooth <- smooth_csmc(open_smc_data, csmc = "smc_cum",
                           lower_ci = "lower_ci_wald", upper_ci = "upper_ci_wald",
                           intervention = "intervention",
