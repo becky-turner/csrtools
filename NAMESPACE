@@ -3,6 +3,7 @@
 export("%>%")
 export(correlation_table)
 export(cumulative_ci)
+export(cumulative_smc)
 export(impute_missing)
 export(plot_forest)
 export(plot_funnel)
