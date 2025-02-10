@@ -30,7 +30,7 @@ This package is particularly suited for researchers in medicine, psychology, or 
 
 You can load the `csrtools` package by running the following:
 
-```{r installation, message=FALSE, warning=FALSE}
+```{r installation, message=FALSE, warning=FALSE, results='hide'}
 # Install devtools if not already installed
 #install.packages("devtools")
 

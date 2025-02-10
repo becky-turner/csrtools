@@ -38,23 +38,7 @@ You can load the `csrtools` package by running the following:
 
 # Install CSRtools from GitHub
 devtools::install_github("becky-turner/csrtools")
-```
 
-    ## 
-    ## ── R CMD build ─────────────────────────────────────────────────────────────────
-    ##      checking for file ‘/tmp/RtmpLXOpfm/remotesc25943db148c/becky-turner-csrtools-d658ac6/DESCRIPTION’ ...  ✔  checking for file ‘/tmp/RtmpLXOpfm/remotesc25943db148c/becky-turner-csrtools-d658ac6/DESCRIPTION’
-    ##   ─  preparing ‘csrtools’:
-    ##      checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
-    ##   ─  excluding invalid files
-    ##      Subdirectory 'R' contains invalid file names:
-    ##      ‘_globals.R’
-    ##   ─  checking for LF line-endings in source and make files and shell scripts
-    ##   ─  checking for empty or unneeded directories
-    ##   ─  building ‘csrtools_0.1.0.tar.gz’
-    ##      
-    ## 
-
-``` r
 # Once installed, load the package
 library("csrtools")
 ```
