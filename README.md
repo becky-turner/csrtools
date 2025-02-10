@@ -30,11 +30,11 @@ time-series data.
 
 ## Installation
 
-You can include R code in the document as follows:
+You can load the `csrtools` package by running the following:
 
 ``` r
 # Install devtools if not already installed
-install.packages("devtools")
+#install.packages("devtools")
 
 # Install CSRtools from GitHub
 devtools::install_github("becky-turner/csrtools")
@@ -74,17 +74,23 @@ open_2weeks <- smc_tp(data=bctq_data[bctq_data$intervention_arm=="Open",],
 
 ![](README_files/figure-gfm/smc1-1.png)<!-- -->
 
-Now run the SMC meta analysis for the endoscopic CTR group:
+Now run the SMC meta analysis for the endoscopic CTR group with
+heterogeneity statistics:
 
 ``` r
 endoscopic_2weeks <- smc_tp(data=bctq_data[bctq_data$intervention_arm=="Endoscopic",], 
        outcome_mean = "mean_2weeks", 
        outcome_sd = "sd_2weeks",
        time_point = "2", time_unit = "weeks (from baseline)", 
-       plot=TRUE)
+       plot=FALSE, heterogeneity = TRUE)
+
+print(endoscopic_2weeks)
 ```
 
-![](README_files/figure-gfm/smc2-1.png)<!-- -->
+    ##   time_point total_sample       smc lower_ci  upper_ci       I2        Q
+    ## 1          2          279 -3.708781 -7.60795 0.1903888 94.10277 36.64795
+    ##       tau2
+    ## 1 21.78263
 
 ## Example: Plot pooled SMC across interventions
 

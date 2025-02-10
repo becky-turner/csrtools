@@ -28,7 +28,7 @@ This package is particularly suited for researchers in medicine, psychology, or 
 
 ## Installation
 
-You load the `csrtools` package by running the following:
+You can load the `csrtools` package by running the following:
 
 ```{r installation, message=FALSE, warning=FALSE}
 # Install devtools if not already installed
