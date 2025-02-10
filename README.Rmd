@@ -28,11 +28,11 @@ This package is particularly suited for researchers in medicine, psychology, or 
 
 ## Installation
 
-You can include R code in the document as follows:
+You load the `csrtools` package by running the following:
 
 ```{r installation, message=FALSE, warning=FALSE}
 # Install devtools if not already installed
-install.packages("devtools")
+#install.packages("devtools")
 
 # Install CSRtools from GitHub
 devtools::install_github("becky-turner/csrtools")
@@ -73,7 +73,7 @@ open_2weeks <- smc_tp(data=bctq_data[bctq_data$intervention_arm=="Open",],
 
 ```
 
-Now run the SMC meta analysis for the endoscopic CTR group:
+Now run the SMC meta analysis for the endoscopic CTR group with heterogeneity statistics:
 
 
 ```{r smc2, message=FALSE,warning=FALSE, fig.height=7, fig.width=11}
@@ -81,7 +81,9 @@ endoscopic_2weeks <- smc_tp(data=bctq_data[bctq_data$intervention_arm=="Endoscop
        outcome_mean = "mean_2weeks", 
        outcome_sd = "sd_2weeks",
        time_point = "2", time_unit = "weeks (from baseline)", 
-       plot=TRUE)
+       plot=FASLE, heterogeneity = TRUE)
+
+print(endoscopic_2weeks)
 
 ```
 
