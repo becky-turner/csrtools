@@ -81,7 +81,7 @@ endoscopic_2weeks <- smc_tp(data=bctq_data[bctq_data$intervention_arm=="Endoscop
        outcome_mean = "mean_2weeks", 
        outcome_sd = "sd_2weeks",
        time_point = "2", time_unit = "weeks (from baseline)", 
-       plot=FASLE, heterogeneity = TRUE)
+       plot=FALSE, heterogeneity = TRUE)
 
 print(endoscopic_2weeks)
 
