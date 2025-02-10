@@ -38,7 +38,23 @@ You can load the `csrtools` package by running the following:
 
 # Install CSRtools from GitHub
 devtools::install_github("becky-turner/csrtools")
+```
 
+    ## 
+    ## ── R CMD build ─────────────────────────────────────────────────────────────────
+    ##      checking for file ‘/tmp/RtmpLXOpfm/remotesc25943db148c/becky-turner-csrtools-d658ac6/DESCRIPTION’ ...  ✔  checking for file ‘/tmp/RtmpLXOpfm/remotesc25943db148c/becky-turner-csrtools-d658ac6/DESCRIPTION’
+    ##   ─  preparing ‘csrtools’:
+    ##      checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
+    ##   ─  excluding invalid files
+    ##      Subdirectory 'R' contains invalid file names:
+    ##      ‘_globals.R’
+    ##   ─  checking for LF line-endings in source and make files and shell scripts
+    ##   ─  checking for empty or unneeded directories
+    ##   ─  building ‘csrtools_0.1.0.tar.gz’
+    ##      
+    ## 
+
+``` r
 # Once installed, load the package
 library("csrtools")
 ```
@@ -166,53 +182,54 @@ Table continues below
 
 ## Example: Estimate cumulative effects
 
-Calculate the cumulative SMC estimates with confidence intervals for the
-open CTR group. Below, the `open_smc_data` subset includes only data for
-the Open CTR subset of patients. The dataset was curated using the
-`smc_tp` function above to calculate the SMC between each time-point.
+Calculate the cumulative SMC estimates with cumulative confidence
+intervals for the open CTR group. Below, the `open_smc_data` subset
+includes only data for the Open CTR subset of patients. The dataset was
+curated using the `smc_tp` function above to calculate the SMC between
+each time-point. Below, we calculate the cumulative confidence intervals
+for the point estimates using a propagated-variance estimation.
 
 ``` r
-# Sort the data by time_point to ensure proper calculation
-open_smc_data <- open_smc_data[order(open_smc_data$time_point), ]
+# Calculate cumulative SMC
+open_smc_data <- cumulative_smc(open_smc_data, 
+                                smc_var = "smc", time_var = "time_point", 
+                                intervention = "Open")
 
-# Calculate cumulative SMC changes
-open_smc_data$smc_cum <- cumsum(open_smc_data$smc)
-
-# Calculate cumulative confidence intervals (fixed-width option)
+# Calculate cumulative confidence intervals (propagated-variance option)
 open_smc_data <- cumulative_ci(open_smc_data, method = "wald")
 
-# Add 0 time point
-open_smc_data <- rbind(0, open_smc_data)
-
-# Add intervention names
-open_smc_data$intervention <- "Open"
-
-# View the final dataset
-head(open_smc_data)
+# View the output
+print(head(open_smc_data))
 ```
 
     ##   time_point total_sample        smc    lower_ci    upper_ci   smc_cum
-    ## 1          0            0  0.0000000  0.00000000  0.00000000  0.000000
-    ## 2          1           35  1.7205467  1.42480945  2.01628389  1.720547
-    ## 3          2          539 -3.0834493 -3.37142270 -2.79547595 -1.362903
-    ## 4          3          238 -4.5813823 -4.95968705 -4.20307745 -5.944285
-    ## 5          4         1978  0.3707095  0.09280147  0.64861761 -5.573575
-    ## 6          6          439 -0.2324367 -0.51016365  0.04529025 -5.806012
-    ##      var_cum lower_ci_wald upper_ci_wald intervention
-    ## 1 0.00000000      0.000000     0.0000000         Open
-    ## 2 0.02276669      1.424809     2.0162839         Open
-    ## 3 0.04435370     -1.775685    -0.9501204         Open
-    ## 4 0.08160758     -6.504199    -5.3843709         Open
-    ## 5 0.10171194     -6.198665    -4.9484861         Open
-    ## 6 0.12179010     -6.490021    -5.1220027         Open
+    ## 1          1           35  1.7205467  1.42480945  2.01628389  1.720547
+    ## 2          2          539 -3.0834493 -3.37142270 -2.79547595 -1.362903
+    ## 3          3          238 -4.5813823 -4.95968705 -4.20307745 -5.944285
+    ## 4          4         1978  0.3707095  0.09280147  0.64861761 -5.573575
+    ## 5          6          439 -0.2324367 -0.51016365  0.04529025 -5.806012
+    ## 6         12         2299 -1.0635138 -1.34589475 -0.78113278 -6.869526
+    ##   intervention    var_cum lower_ci_wald upper_ci_wald
+    ## 1         Open 0.02276669      1.424809     2.0162839
+    ## 2         Open 0.04435370     -1.775685    -0.9501204
+    ## 3         Open 0.08160758     -6.504199    -5.3843709
+    ## 4         Open 0.10171194     -6.198665    -4.9484861
+    ## 5         Open 0.12179010     -6.490021    -5.1220027
+    ## 6         Open 0.14254682     -7.609531    -6.1295205
 
 ## Visualise cumulative effects
 
 Here, we use a smoothing function over the cumulative SMC estimates
 calculated from the step above and plot the point estimates with
-confidence intervals as a time-series.
+propagated-variance confidence intervals as a time-series.
 
 ``` r
+# Run from 0: add 0 time point
+open_smc_data <- rbind(0, open_smc_data)
+
+# Rename intervention names after adding 0 line.
+open_smc_data$intervention <- "Open"
+
 smc_smooth <- smooth_csmc(open_smc_data, csmc = "smc_cum",
                           lower_ci = "lower_ci_wald", upper_ci = "upper_ci_wald",
                           intervention = "intervention",
